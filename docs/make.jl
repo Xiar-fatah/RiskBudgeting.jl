@@ -20,6 +20,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/xiar-fatah/RiskBudgeting.jl",
+    repo="github.com/Xiar-fatah/RiskBudgeting.jl",
     devbranch="main",
 )
