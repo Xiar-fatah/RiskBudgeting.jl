@@ -2,10 +2,10 @@
     ccd(cov, b, max_iter, tol)
     
 ```julia
-cov::AbstractMatrix   Covariance Matrix
-b::AbstractVector{Float}  Risk Budgeting vector
-max_iter::Int
-tol::Float
+cov::AbstractMatrix   Covariance matrix
+b::AbstractVector{Float}  Risk budgeting vector
+max_iter::Int Number of iterations for cyclical coordinate descent
+tol::Float The minimum tolerance of the result
 ```
 Calculate the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
 and the risk partitions between the assets.
