@@ -1,14 +1,19 @@
 """
-    ccd(cov, b, max_iter, tol)
-    
-```julia
-cov::AbstractMatrix   Covariance matrix
-b::AbstractVector{Float}  Risk budgeting vector
-max_iter::Int Number of iterations for cyclical coordinate descent
-tol::Float The minimum tolerance of the result
-```
-Calculate the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
-and the risk partitions between the assets.
+    ccd(cov, b, [max_iter], [tol])
+
+    ```julia
+    cov::AbstractMatrix Covariance matrix
+    b::AbstractVector{Float} Risk budgeting vector
+    max_iter::Int Number of iterations for cyclical coordinate descent
+    tol::Float The minimum tolerance of the result
+    ```
+    Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
+    and the risk partitions between the assets.
+
+    External links
+    * Griveau-Billion, Théophile and Richard, Jean-Charles and Roncalli, Thierry,
+    A Fast Algorithm for Computing High-Dimensional Risk Parity Portfolios (September 1, 2013). 
+    doi: http://dx.doi.org/10.2139/ssrn.2325255 
 """
 function ccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
@@ -40,3 +45,4 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     return x  
     
 end
+
