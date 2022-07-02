@@ -1,3 +1,9 @@
+"""
+    ccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+Calculate the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
+and the risk partitions between the assets.
+"""
 function ccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
     
