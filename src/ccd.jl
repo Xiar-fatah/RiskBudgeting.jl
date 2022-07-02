@@ -1,7 +1,12 @@
 """
-    ccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+    ccd(cov, b, max_iter, tol)
     
+```julia
+cov::AbstractMatrix   Covariance Matrix
+b::AbstractVector{Float}  Risk Budgeting vector
+max_iter::Int
+tol::Float
+```
 Calculate the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
 and the risk partitions between the assets.
 """
