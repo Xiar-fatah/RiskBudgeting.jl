@@ -1,6 +1,6 @@
 using RiskBudgeting
 using Test
+using LinearAlgebra
 
-@testset "RiskBudgeting.jl" begin
-    # Write your tests here.
-end
+include("./ccd.jl")
+

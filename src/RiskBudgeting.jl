@@ -1,5 +1,5 @@
 module RiskBudgeting
-
-# Write your package code here.
-
+    using LinearAlgebra
+    export ccd
+    include("ccd.jl")
 end
