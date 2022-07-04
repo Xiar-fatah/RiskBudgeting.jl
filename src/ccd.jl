@@ -12,8 +12,8 @@ and the risk partitions between the assets.
 
 External links
 * Griveau-Billion, Théophile and Richard, Jean-Charles and Roncalli, Thierry,
-A Fast Algorithm for Computing High-Dimensional Risk Parity Portfolios (September 1, 2013). 
-doi: http://dx.doi.org/10.2139/ssrn.2325255 
+  A Fast Algorithm for Computing High-Dimensional Risk Parity Portfolios (September 1, 2013). 
+  doi: [10.2139/ssrn.2325255](http://dx.doi.org/10.2139/ssrn.2325255)
 """
 function ccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
@@ -45,4 +45,34 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     return x  
     
 end
+
+"""
+    fastccd(cov, b, [max_iter], [tol])
+
+```julia
+cov::AbstractMatrix Covariance matrix
+b::AbstractVector{Float} Risk budgeting vector
+max_iter::Int Number of iterations for cyclical coordinate descent
+tol::Float The minimum tolerance of the result
+```
+Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
+and the risk partitions between the assets.
+
+External links
+* Choi, J., & Chen, R. (2022). 
+  Improved iterative methods for solving risk parity portfolio,
+  Journal of Derivatives and Quantitative Studies: 선물연구
+  doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
+ 
+"""
+function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+    
+    # The risk budgeting vector must be positive
+    @assert all(b.>0) == true
+    # The covariance matrix must be NxN
+    @assert (size(cov)[1] == size(cov)[2]) == true
+
+end
+
 
