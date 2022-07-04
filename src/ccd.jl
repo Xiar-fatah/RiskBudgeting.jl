@@ -92,7 +92,7 @@ External links
  
 """
 function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))
     
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
@@ -113,17 +113,15 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         x = x ./ (sqrt(x' * corr * x))
 
         if maximum(abs.(x .* (corr * x) .- b)) < tol
-            return (x/σ) ./ (sum(x ./ σ))
+            return (x./σ) ./ (sum(x ./ σ))
         end
     end
     println("Cyclical Coordinate Descent has failed to converge!")
     return x  
 end
-
-function _covtocorr(cov::AbstractMatrix)::AbstractMatrix
+function _covtocorr(cov::AbstractMatrix)
     σ = diagm(sqrt.(diag(cov)))
     cov_inv = inv(σ)
     return cov_inv * (cov * cov_inv)
 end
-
 
