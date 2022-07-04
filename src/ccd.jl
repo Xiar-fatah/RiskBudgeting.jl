@@ -91,14 +91,38 @@ External links
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
  
 """
+
 function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
     
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
-    # The covariance matrix must be NxN
+    # The correlation matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
+    
+    corr = _covtocorr(cov)
+    σ = sqrt.(diag(cov))
+    N = size(corr)[1]
+    onevec = ones(N)
+    x = onevec ./sqrt(onevec' * corr * onevec)
 
+    for iter = 1:max_iter
+        i = (iter) % size(cov)[1] + 1
+
+        aᵢ = ((Corr * x)[i] - x[i]) / 2
+        x[i] = sqrt(aᵢ^2 + b[i]) - aᵢ
+        x = x ./ (sqrt(x' * corr * x))
+
+        if maximum(abs.(x .* (corr * x) .- b)) < tol
+            return (x/σ) ./ (sum(x ./ σ))
+        end
+    end
+end
+
+function _covtocorr(cov::AbstractMatrix)::AbstractMatrix
+    σ = sqrt(diag(cov));
+    cov_inv = inv(D);
+    return cov_inv * σ * cov_inv 
 end
 
 

@@ -1,4 +1,6 @@
-
+"""
+    mostdiversified(cov, b, [max_iter], [tol])
+"""
 function mostdiversified(cov::AbstractMatrix, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
     # The covariance matrix must be NxN
@@ -15,6 +17,9 @@ function mostdiversified(cov::AbstractMatrix,
     return ccd(cov, b, max_iter, tol, predefined = 1)
 end
 
+"""
+    equalriskcontribution(cov, b, [max_iter], [tol])
+"""
 function equalriskcontribution(cov::AbstractMatrix, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
     # The covariance matrix must be NxN
@@ -28,6 +33,9 @@ function equalriskcontribution(cov::AbstractMatrix,
     return ccd(cov, b, max_iter, tol, predefined = 1)
 end
 
+"""
+    inversevariance(cov, b, [max_iter], [tol])
+"""
 function inversevariance(cov::AbstractMatrix, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
     # The covariance matrix must be NxN
