@@ -28,8 +28,8 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     xΣx = x' * Σx
     for iter = 1:max_iter
         i = (iter) % size(cov)[1] + 1
-        nonsqrt = -Σx[i] + x[i]*cov[i,i]
-        x̃ = (nonsqrt + sqrt(nonsqrt^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
+        bb = -Σx[i] + x[i]*cov[i,i]
+        x̃ = (bb + sqrt(bb^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
         
         Σx = Σx + cov[:,i]*(x̃ - x[i]) # Σx̃
         xΣx = xΣx + cov[i,i] * (x[i]^2 - x̃^2) - 2*x[i]*(cov[i, :]' * x)  # σ(x̃)
@@ -54,8 +54,8 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     xΣx = x' * Σx
     for iter = 1:max_iter
         i = (iter) % size(cov)[1] + 1
-        nonsqrt = -Σx[i] + x[i]*cov[i,i]
-        x̃ = (nonsqrt + sqrt(nonsqrt^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
+        bb = -Σx[i] + x[i]*cov[i,i]
+        x̃ = (bb + sqrt(bb^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
         
         Σx = Σx + cov[:,i]*(x̃ - x[i]) # Σx̃
         xΣx = xΣx + cov[i,i] * (x[i]^2 - x̃^2) - 2*x[i]*(cov[i, :]' * x)  # σ(x̃)
@@ -108,7 +108,7 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     for iter = 1:max_iter
         i = (iter) % size(cov)[1] + 1
 
-        aᵢ = ((Corr * x)[i] - x[i]) / 2
+        aᵢ = ((corr * x)[i] - x[i]) / 2
         x[i] = sqrt(aᵢ^2 + b[i]) - aᵢ
         x = x ./ (sqrt(x' * corr * x))
 
@@ -116,12 +116,14 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
             return (x/σ) ./ (sum(x ./ σ))
         end
     end
+    println("Cyclical Coordinate Descent has failed to converge!")
+    return x  
 end
 
 function _covtocorr(cov::AbstractMatrix)::AbstractMatrix
-    σ = sqrt(diag(cov));
-    cov_inv = inv(D);
-    return cov_inv * σ * cov_inv 
+    σ = diagm(sqrt.(diag(cov)))
+    cov_inv = inv(σ)
+    return cov_inv * (cov * cov_inv)
 end
 
 
