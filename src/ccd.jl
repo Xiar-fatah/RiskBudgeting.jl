@@ -91,7 +91,6 @@ External links
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
  
 """
-
 function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
     
