@@ -97,27 +97,28 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
     # The correlation matrix must be NxN
-    @assert (size(cov)[1] == size(cov)[2]) == true
+    @assert (size(cov,1) == size(cov,2)) == true
     
     corr = _covtocorr(cov)
     σ = sqrt.(diag(cov))
-    N = size(corr)[1]
+    N = size(corr,1)
     onevec = ones(N)
-    x = onevec ./sqrt(onevec' * corr * onevec)
+    x = onevec ./sqrt(sqrt(sum(corr)))
 
     for iter = 1:max_iter
-        i = (iter) % size(cov)[1] + 1
+        i = (iter) % size(cov,1) + 1
 
-        aᵢ = ((corr * x)[i] - x[i]) / 2
+        aᵢ = 0.5 * ((corr * x)[i] - x[i])
         x[i] = sqrt(aᵢ^2 + b[i]) - aᵢ
-        x = x ./ (sqrt(x' * corr * x))
-
+        x = x ./ (sqrt(x' * (corr * x)))
         if maximum(abs.(x .* (corr * x) .- b)) < tol
-            return (x./σ) ./ (sum(x ./ σ))
+            x = (x./σ)
+            return x ./ (sum(x))
         end
     end
     println("Cyclical Coordinate Descent has failed to converge!")
-    return x  
+    x = (x./σ)
+    return x ./ (sum(x))
 end
 function _covtocorr(cov::AbstractMatrix)
     σ = diagm(sqrt.(diag(cov)))
