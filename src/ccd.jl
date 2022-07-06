@@ -87,7 +87,7 @@ and the risk partitions between the assets.
 External links
 * Choi, J., & Chen, R. (2022). 
   Improved iterative methods for solving risk parity portfolio,
-  Journal of Derivatives and Quantitative Studies: 선물연구
+  Journal of Derivatives and Quantitative Studies, 30(2)
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
  
 """
@@ -120,6 +120,7 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     x = (x./σ)
     return x ./ (sum(x))
 end
+
 function _covtocorr(cov::AbstractMatrix)
     σ = diagm(sqrt.(diag(cov)))
     cov_inv = inv(σ)
