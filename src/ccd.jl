@@ -28,8 +28,9 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     xΣx = x' * Σx
     for iter = 1:max_iter
         i = (iter) % size(cov,1) + 1
-        bb = -Σx[i] + x[i]*cov[i,i]
-        x̃[i] = (bb + sqrt(bb^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
+        bb1 = -Σx[i] + x[i]*cov[i,i]
+        bb2 = Σx[i] - x[i]*cov[i,i]
+        x̃[i] = (bb1 + sqrt(bb2^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
         Σx = Σx + cov[:,i]*(x̃[i] - x[i]) # Σx̃
         xΣx = xΣx + cov[i,i] * (x[i]^2 - x̃[i]^2) - 2*x[i]*(cov[i, :]' * x) + 2*x̃[i] * (cov[i,:]' * x̃)  # σ(x̃)
         rc = (x̃ .* (cov * x̃)) ./ (sqrt(x̃' * (cov * x̃)))
@@ -54,8 +55,9 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     xΣx = x' * Σx
     for iter = 1:max_iter
         i = (iter) % size(cov,1) + 1
-        bb = -Σx[i] + x[i]*cov[i,i]
-        x̃[i] = (bb + sqrt(bb^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
+        bb1 = -Σx[i] + x[i]*cov[i,i]
+        bb2 = Σx[i] - x[i]*cov[i,i]
+        x̃[i] = (bb1 + sqrt(bb2^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
         Σx = Σx + cov[:,i]*(x̃[i] - x[i]) # Σx̃
         xΣx = xΣx + cov[i,i] * (x[i]^2 - x̃[i]^2) - 2*x[i]*(cov[i, :]' * x) + 2*x̃[i] * (cov[i,:]' * x̃)  # σ(x̃)
         rc = (x̃ .* (cov * x̃)) ./ (sqrt(x̃' * (cov * x̃)))
