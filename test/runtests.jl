@@ -3,7 +3,7 @@ using Test
 using LinearAlgebra
 
 
-tests = ["ccd"]
+tests = ["solvers"]
 println("Runing tests:")
 for t in tests
     fp = "$(t).jl"

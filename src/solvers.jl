@@ -6,6 +6,7 @@ cov::AbstractMatrix Covariance matrix
 b::AbstractVector{Float} Risk budgeting vector
 max_iter::Int Number of iterations for cyclical coordinate descent
 tol::Float The minimum tolerance of the result
+bounds::Bool Whether to run bounds checks or not
 ```
 Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
 and the risk partitions between the assets.
@@ -56,6 +57,8 @@ cov::AbstractMatrix Covariance matrix
 b::AbstractVector{Float} Risk budgeting vector
 max_iter::Int Number of iterations for cyclical coordinate descent
 tol::Float The minimum tolerance of the result
+bounds::Bool Whether to run bounds checks or not
+
 ```
 Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
 and the risk partitions between the assets.

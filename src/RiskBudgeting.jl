@@ -11,7 +11,7 @@ module RiskBudgeting
     # Utils
     _covtocorr
 
-    include("ccd.jl")
+    include("solvers.jl")
     include("portfolios.jl")
     include("utils.jl")
 end
