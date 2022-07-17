@@ -1,8 +1,14 @@
 module RiskBudgeting
     using LinearAlgebra
-    export ccd, fastccd, 
+    export
+
+    # Solvers 
+    ccd, fastccd,
+    
+    # Portfolios
     mostdiversified, equalriskcontribution, inversevariance
 
     include("ccd.jl")
     include("portfolios.jl")
+
 end

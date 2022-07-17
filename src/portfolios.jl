@@ -1,3 +1,7 @@
+import RiskBudgeting: ccd
+
+
+
 """
     mostdiversified(cov, b, [max_iter], [tol])
 """
