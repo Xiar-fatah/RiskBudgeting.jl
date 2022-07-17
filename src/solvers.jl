@@ -13,10 +13,10 @@ and the risk partitions between the assets.
 
 External links
 * Griveau-Billion, Théophile and Richard, Jean-Charles and Roncalli, Thierry,
-  A Fast Algorithm for Computing High-Dimensional Risk Parity Portfolios (September 1, 2013). 
+  A Fast Algorithm for Computing High-Dimensional Risk Parity Portfolios (September 1, 2013).
   doi: [10.2139/ssrn.2325255](http://dx.doi.org/10.2139/ssrn.2325255)
 """
-function ccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
+function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
     if bounds == true
@@ -26,7 +26,7 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         @assert (size(cov,1) == size(cov,2)) == true
     end
 
-    x = 1 ./ sqrt.(diag(cov)) 
+    x = 1 ./ sqrt.(diag(cov))
     x̃ = x
     Σx = cov * x
     xΣx = x' * Σx
@@ -64,13 +64,13 @@ Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate
 and the risk partitions between the assets.
 
 External links
-* Choi, J., & Chen, R. (2022). 
+* Choi, J., & Chen, R. (2022).
   Improved iterative methods for solving risk parity portfolio,
   Journal of Derivatives and Quantitative Studies, 30(2)
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
- 
+
 """
-function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64}, 
+function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
 
@@ -81,7 +81,7 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         @assert (size(cov,1) == size(cov,2)) == true
     end
 
-    
+
     corr = _covtocorr(cov)
     σ = sqrt.(diag(cov))
     N = size(corr,1)
@@ -104,5 +104,47 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     return x ./ (sum(x))
 end
 
+function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
-
+    if bounds == true
+        # The risk budgeting vector must be positive
+        @assert all(b.>0) == true
+        # The covariance matrix must be NxN
+        @assert (size(cov,1) == size(cov,2)) == true
+    end
+    
+    # Initilization
+    u = ones(size(cov,1))
+    x = sqrt(sum(b) / (u' * (cov * u))) * u
+    λₛₜₐᵣ = 0.95 * (3-sqrt(5)) / 2
+    # Damped Phase
+    for i = 1:max_iter
+        λₖ, Δx, δₖ = iteration(cov, x, u, b)
+        x = x - Δx ./ (1+δₖ)
+        if λₖ > λₛₜₐᵣ
+            break
+        end
+    end
+    # Quadratic Phase
+    for i = 1:max_iter
+        λₖ, Δx, δₖ = iteration(cov, x, u, b)
+        x = x - Δx
+        rc = (x .* (cov * x)) ./ (sqrt(x' * (cov * x)))
+        if maximum(abs.(rc / sum(rc) .- b)) < tol
+        #if λₖ > tol
+            break
+        end
+    end
+    #σ = diag(cov)
+    #x = x ./ σ
+    return x ./ sum(x)
+end
+function iteration(cov, x, u, b)
+    uₖ = cov * x - b ./ x
+    Hₖ = cov + diagm(b ./ (x .* x))
+    Δx = inv(Hₖ) * uₖ
+    δₖ = norm(Δx ./ x, Inf)
+    λₖ = sqrt(uₖ' * Δx)
+    return λₖ, Δx, δₖ
+end

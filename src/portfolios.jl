@@ -1,9 +1,9 @@
-import RiskBudgeting: ccd
+import RiskBudgeting: ccd, fastccd, newton, fastnewton
 """
     mostdiversified(cov, b, [max_iter], [tol])
 """
-function mostdiversified(cov::AbstractMatrix, 
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+function mostdiversified(cov::AbstractMatrix, max_iter::Int64 = 10000,
+    tol::Float64 = 10^(-4), solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
 
@@ -21,8 +21,8 @@ end
 """
     equalriskcontribution(cov, b, [max_iter], [tol])
 """
-function equalriskcontribution(cov::AbstractMatrix, 
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+function equalriskcontribution(cov::AbstractMatrix, max_iter::Int64 = 10000,
+     tol::Float64 = 10^(-4), solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
 
@@ -37,8 +37,8 @@ end
 """
     inversevariance(cov, b, [max_iter], [tol])
 """
-function inversevariance(cov::AbstractMatrix, 
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4))::AbstractVector
+function inversevariance(cov::AbstractMatrix, max_iter::Int64 = 10000,
+    tol::Float64 = 10^(-4), solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
 
@@ -48,5 +48,22 @@ function inversevariance(cov::AbstractMatrix,
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
 
-    return ccd(cov, b, max_iter, tol, bounds = false)
+    return helper(cov, b, max_iter, tol, bounds = false)
+end
+
+function helper(cov, b, max_iter, tol, bounds = false, solver::Symbol)::AbstractVector
+    if solver == newton
+        weights = newton(cov::AbstractMatrix, b::AbstractVector{Float64},
+            max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = false)
+    elseif solver == ccd
+        weights = fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
+            max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = false)
+    elseif solver == fastccd
+        weights = ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
+            max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = false)
+    else
+        weights = fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
+            max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = false)
+    end
+    return weights
 end
