@@ -6,9 +6,12 @@ module RiskBudgeting
     ccd, fastccd,
     
     # Portfolios
-    mostdiversified, equalriskcontribution, inversevariance
+    mostdiversified, equalriskcontribution, inversevariance,
+
+    # Utils
+    _covtocorr
 
     include("ccd.jl")
     include("portfolios.jl")
-
+    include("utils.jl")
 end

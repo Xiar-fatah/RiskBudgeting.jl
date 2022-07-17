@@ -1,7 +1,3 @@
-import RiskBudgeting: ccd
-
-
-
 """
     mostdiversified(cov, b, [max_iter], [tol])
 """
@@ -18,7 +14,7 @@ function mostdiversified(cov::AbstractMatrix,
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
 
-    return ccd(cov, b, max_iter, tol, predefined = 1)
+    return ccd(cov, b, max_iter, tol, bounds = false)
 end
 
 """
@@ -34,7 +30,7 @@ function equalriskcontribution(cov::AbstractMatrix,
 
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
-    return ccd(cov, b, max_iter, tol)
+    return ccd(cov, b, max_iter, tol, bounds = false)
 end
 
 """
@@ -51,5 +47,5 @@ function inversevariance(cov::AbstractMatrix,
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
 
-    return ccd(cov, b, max_iter, tol, predefined = 1)
+    return ccd(cov, b, max_iter, tol, bounds = false)
 end
