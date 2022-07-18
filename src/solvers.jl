@@ -195,7 +195,7 @@ function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64}, tol::Float6
         return "Fast Newtons method did not converge!"
     elseif any(0 .> w) == true
         return "One or more weights is negative, fast Newtons method failed to converge!"
-    else    
+    else
         w = w ./ σ
         return w / sum(w)
     end
@@ -220,7 +220,7 @@ end
 function my_solve(f!, g!, x, cov, b, tol)
     n = size(x,1)
     maxfev = 100 * (n+1)
-    retval = fsolve((fvec,x) -> f!(fvec, x, cov, b),  
+    retval = fsolve((fvec,x) -> f!(fvec, x, cov, b),
         (fjac,x) -> g!(fjac, x, cov, b),
         x,
         tol = tol,
@@ -231,4 +231,3 @@ function my_solve(f!, g!, x, cov, b, tol)
         maxfev = maxfev)
     return retval.x, retval.converged
 end
-

@@ -10,8 +10,9 @@ MINPACK = "4854310b-de5a-5eb6-a2a5-c1dee2bd17f9"
 
 [compat]
 Documenter = "0.27.19"
-julia = "1.7.1"
 MINPACK = "1.1.1"
+julia = "1.7.1"
+
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
