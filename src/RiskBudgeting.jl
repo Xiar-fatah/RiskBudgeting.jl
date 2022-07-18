@@ -1,9 +1,9 @@
 module RiskBudgeting
-    using LinearAlgebra
+    using LinearAlgebra, MINPACK
     export
 
     # Solvers 
-    ccd, fastccd,
+    ccd, fastccd, newton,
     
     # Portfolios
     mostdiversified, equalriskcontribution, inversevariance,

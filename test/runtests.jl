@@ -1,6 +1,6 @@
 using RiskBudgeting
 using Test
-using LinearAlgebra
+using LinearAlgebra, MINPACK
 
 
 tests = ["solvers"]

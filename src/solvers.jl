@@ -26,26 +26,27 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         @assert (size(cov,1) == size(cov,2)) == true
     end
 
-    x = 1 ./ sqrt.(diag(cov))
+    σ = sqrt.(diag(cov))
+    x = (ones(size(cov,1)) ./ (σ)) / (1 / sum(σ))
     x̃ = x
     Σx = cov * x
     xΣx = x' * Σx
     for iter = 1:max_iter
         i = (iter) % size(cov,1) + 1
-        bb1 = -Σx[i] + x[i]*cov[i,i]
-        bb2 = Σx[i] - x[i]*cov[i,i]
-        x̃[i] = (bb1 + sqrt(bb2^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
+        bb = -Σx[i] + x[i]*cov[i,i]
+        x̃[i] = (bb + sqrt(bb^2 + 4*cov[i,i] * b[i] * sqrt(xΣx))) / (2*cov[i, i])
         Σx = Σx + cov[:,i]*(x̃[i] - x[i]) # Σx̃
         xΣx = xΣx + cov[i,i] * (x[i]^2 - x̃[i]^2) - 2*x[i]*(cov[i, :]' * x) + 2*x̃[i] * (cov[i,:]' * x̃)  # σ(x̃)
         rc = (x̃ .* (cov * x̃)) ./ (sqrt(x̃' * (cov * x̃)))
+
         if maximum(abs.(rc / sum(rc) .- b)) < tol
-            return x̃ / sum(x)
+            return x̃ / sum(x̃)
         end
         x = x̃
 
     end
     println("Cyclical Coordinate Descent has failed to converge!")
-    return x̃ / sum(x)
+    return x̃ / sum(x̃)
 end
 
 
@@ -104,6 +105,19 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     return x ./ (sum(x))
 end
 
+"""
+    newton(cov, b, [max_iter], [tol], [bounds])
+
+```julia
+cov::AbstractMatrix Covariance matrix
+b::AbstractVector{Float} Risk budgeting vector
+max_iter::Int Number of iterations for cyclical coordinate descent
+tol::Float The minimum tolerance of the result
+bounds::Bool Whether to run bounds checks or not
+
+```
+
+"""
 function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
@@ -128,7 +142,7 @@ function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
     end
     # Quadratic Phase
     for i = 1:max_iter
-        λₖ, Δx, δₖ = iteration(cov, x, u, b)
+        _, Δx, _ = iteration(cov, x, u, b)
         x = x - Δx
         rc = (x .* (cov * x)) ./ (sqrt(x' * (cov * x)))
         if maximum(abs.(rc / sum(rc) .- b)) < tol
@@ -140,6 +154,7 @@ function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
     #x = x ./ σ
     return x ./ sum(x)
 end
+
 function iteration(cov, x, u, b)
     uₖ = cov * x - b ./ x
     Hₖ = cov + diagm(b ./ (x .* x))
@@ -148,3 +163,72 @@ function iteration(cov, x, u, b)
     λₖ = sqrt(uₖ' * Δx)
     return λₖ, Δx, δₖ
 end
+"""
+    fastnewton(cov, b, [tol], [bounds])
+
+```julia
+cov::AbstractMatrix Covariance matrix
+b::AbstractVector{Float} Risk budgeting vector
+max_iter::Int Number of iterations for cyclical coordinate descent
+tol::Float The minimum tolerance of the result
+bounds::Bool Whether to run bounds checks or not
+
+```
+
+"""
+function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64}, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
+    if bounds == true
+        # The risk budgeting vector must be positive
+        @assert all(b.>0) == true
+        # The covariance matrix must be NxN
+        @assert (size(cov,1) == size(cov,2)) == true
+    end
+    corr = _covtocorr(cov)
+    σ = diag(cov)
+    onevec = ones(size(cov,1))
+    a = (corr * onevec - onevec) / (2* sqrt(onevec' * corr * onevec))
+    x = sqrt.(a.^2 + b) - a
+
+    w, converged = my_solve(f!, g!, x, cov, b, tol) #ska vara cov istället, men vanliga pappret använde cor
+
+    if converged == false
+        return "Fast Newtons method did not converge!"
+    elseif any(0 .> w) == true
+        return "One or more weights is negative, fast Newtons method failed to converge!"
+    else    
+        w = w ./ σ
+        return w / sum(w)
+    end
+end
+
+function f!(fvec, x, cov, b)
+    temp = cov * x - b ./ x
+    fvec[1] = temp[1]
+    fvec[2] = temp[2]
+    fvec
+end
+
+function g!(fjac, x, cov, b)
+    temp = cov + diagm(b ./ (x .* x))
+    fjac[1,1] = temp[1,1]
+    fjac[1,2] = temp[1,2]
+    fjac[2,1] = temp[2,1]
+    fjac[2,2] = temp[2,2]
+    fjac
+end
+
+function my_solve(f!, g!, x, cov, b, tol)
+    n = size(x,1)
+    maxfev = 100 * (n+1)
+    retval = fsolve((fvec,x) -> f!(fvec, x, cov, b),  
+        (fjac,x) -> g!(fjac, x, cov, b),
+        x,
+        tol = tol,
+        show_trace = true,
+        method = :hybr,
+        factor = 100.0,
+        mode = 1,
+        maxfev = maxfev)
+    return retval.x, retval.converged
+end
+
