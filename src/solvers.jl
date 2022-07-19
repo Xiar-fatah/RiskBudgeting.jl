@@ -61,7 +61,7 @@ tol::Float The minimum tolerance of the result
 bounds::Bool Whether to run bounds checks or not
 
 ```
-Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
+A faster solution finder of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
 and the risk partitions between the assets.
 
 External links
@@ -69,7 +69,6 @@ External links
   Improved iterative methods for solving risk parity portfolio,
   Journal of Derivatives and Quantitative Studies, 30(2)
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
-
 """
 function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
@@ -116,6 +115,13 @@ tol::Float The minimum tolerance of the result
 bounds::Bool Whether to run bounds checks or not
 
 ```
+Solution finder of the risk budgeting portfolio with Newton's method given the covariance matrix
+and the risk partitions between the assets (also known as Spinu's algorithm).
+
+External links
+* Spinu, Florin,
+  An Algorithm for Computing Risk Parity Weights (July 30, 2013).
+  doi: [10.2139/ssrn.2297383](http://dx.doi.org/10.2139/ssrn.2297383)
 
 """
 function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
@@ -160,9 +166,10 @@ function iteration(cov, x, u, b)
     Hₖ = cov + diagm(b ./ (x .* x))
     Δx = inv(Hₖ) * uₖ
     δₖ = norm(Δx ./ x, Inf)
-    λₖ = sqrt(uₖ' * Δx)
+    λₖ = sqrt(transpose(uₖ) * Δx)
     return λₖ, Δx, δₖ
 end
+
 """
     fastnewton(cov, b, [tol], [bounds])
 
@@ -174,7 +181,15 @@ tol::Float The minimum tolerance of the result
 bounds::Bool Whether to run bounds checks or not
 
 ```
+A faster solution finder of the risk budgeting portfolio based on Newton's method given the covariance matrix
+and the risk partitions between the assets. The core concept is that the solution will converge faster if the initial
+guess of the weights is closer to the solution in comparision to Spinu's algorithm.
 
+External links
+* Choi, J., & Chen, R. (2022).
+    Improved iterative methods for solving risk parity portfolio,
+    Journal of Derivatives and Quantitative Studies, 30(2)
+    doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
 """
 function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64}, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
     if bounds == true
