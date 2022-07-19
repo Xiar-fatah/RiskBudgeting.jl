@@ -16,8 +16,9 @@ makedocs(;
     ),
     pages=[
         "Introduction" => "index.md",
-        "Solvers" => ["ccd.md"],
-        "Portfolios" => ["portfolios.md"],
+        "Portfolios" => "portfolios.md",
+        "Solvers" => ["ccd.md", "newton.md"],
+
         "Examples" => ["examples.md"]
     ],
 )
