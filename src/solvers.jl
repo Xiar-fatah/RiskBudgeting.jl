@@ -127,7 +127,7 @@ function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
         # The covariance matrix must be NxN
         @assert (size(cov,1) == size(cov,2)) == true
     end
-    
+
     # Initilization
     u = ones(size(cov,1))
     x = sqrt(sum(b) / (u' * (cov * u))) * u
