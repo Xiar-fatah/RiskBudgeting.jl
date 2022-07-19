@@ -176,7 +176,6 @@ end
 ```julia
 cov::AbstractMatrix Covariance matrix
 b::AbstractVector{Float} Risk budgeting vector
-max_iter::Int Number of iterations for cyclical coordinate descent
 tol::Float The minimum tolerance of the result
 bounds::Bool Whether to run bounds checks or not
 
@@ -191,7 +190,8 @@ External links
     Journal of Derivatives and Quantitative Studies, 30(2)
     doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
 """
-function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64}, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
+function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
+     tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
     if bounds == true
         # The risk budgeting vector must be positive
         @assert all(b.>0) == true
