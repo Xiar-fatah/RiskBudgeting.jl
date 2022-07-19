@@ -55,12 +55,12 @@ end
         0.5 0.5 1]
     b_test = [1/3 for i=1:3]
     b_minus = [-1/3 for i = 1:3]
-    @test_throws AssertionError newton(cov_test, b_minus)
+    @test_throws AssertionError fastnewton(cov_test, b_minus)
 
     cov_non_square = [1 0.5
                 0.5 1
                 0.5 0.5]
-    @test_throws AssertionError newton(cov_non_square, b_test)
+    @test_throws AssertionError fastnewton(cov_non_square, b_test)
 
 
 end

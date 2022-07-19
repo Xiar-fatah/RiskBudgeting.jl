@@ -5,10 +5,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 newton
 ```
 
-```@docs
-fastnewton
-```
-
 !!! note
     Note that the modified Spinu's algorithm proposed by Choi, J., & Chen, R. can obtain negative weights,
     which according to the constraints of risk budgeting should not occur.
+
+```@docs
+fastnewton
+```
