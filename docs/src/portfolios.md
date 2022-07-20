@@ -11,7 +11,7 @@ As a result, the risk contribution, interpreted as the amount of risk exposure a
 ```
 This implies that if given the risk budgets $\{b_1, \ldots, b_N\}$, the risk budgeting portfolio is solved by finding the solutions to the non-linear system of equations ``b_i = \\textrm{RC}_i``. By generalizing the system of equations with the additional constraints of being long only and complete capital allocation, the risk budgeting portfolio develop into
 ```math
-\begin{align}\label{risk_budgeting_portfolio}
+\begin{aligned}\label{risk_budgeting_portfolio}
     \begin{cases}
     w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_n)}{\partial w_i} = b_i \mathcal{R}, \\
     b_i \geq 0, \\
@@ -19,7 +19,7 @@ This implies that if given the risk budgets $\{b_1, \ldots, b_N\}$, the risk bud
     \sum_{i=1}^N b_i = 1, \\
     \sum_{i=1}^N w_i = 1.
     \end{cases}
- \end{align}
+ \end{aligned}
 ```
 
 
