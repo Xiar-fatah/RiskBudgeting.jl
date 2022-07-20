@@ -1,5 +1,5 @@
 # [Portfolios](@id portfolios_intro)
-In comparison to the previous methods, risk budgeting portfolios considers the amount of risk contribution each asset in the portfolio can hold.  Let $w_i$ and ``\mathcal{R}(w_1, \hdots, w_N)`` denote the weights of the asset ``i`` and the risk measure of the portfolio, for example volatility, respectively. Given that the risk measure is coherent and convex it will satisfy the condition of Euler decomposition
+In comparison to the previous methods, risk budgeting portfolios considers the amount of risk contribution each asset in the portfolio can hold.  Let $w_i$ and ``R(w_1, \hdots, w_N)`` denote the weights of the asset ``i`` and the risk measure of the portfolio, for example volatility, respectively. Given that the risk measure is coherent and convex it will satisfy the condition of Euler decomposition
 
 ```math
 \mathcal{R}(w_1, \hdots, w_N) = \sum_{i=1}^n w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_n)}{\partial w_i}.
