@@ -1,22 +1,34 @@
 # [Portfolios](@id portfolios_intro)
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In comparison to the previous methods, risk budgeting portfolios considers the amount of risk contribution each asset in the portfolio can hold.  Let $w_i$ and $\mathcal{R}(w_1, \hdots, w_N)$ denote the weights of the asset $i$ and the risk measure of the portfolio, for example volatility, respectively. Given that the risk measure is coherent and convex it will satisfy the condition of Euler decomposition
+$$\mathcal{R}(w_1, \hdots, w_N) = \sum_{i=1}^n w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_n)}{\partial w_i}.$$
+As a result, the risk contribution, interpreted as the amount of risk exposure an asset in a portfolio is allowed to collect, of asset $i$ is expressed as
+$$    \textrm{RC}_i (w_1, \hdots, w_N) = w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_N)}{\partial w_i}.$$
+This implies that if given the risk budgets $\{b_1, \ldots, b_N\}$, the risk budgeting portfolio is solved by finding the solutions to the non-linear system of equations $b_i = \textrm{RC}_i$. By generalizing the system of equations with the additional constraints of being long only and complete capital allocation, the risk budgeting portfolio develop into
+$
+\begin{align}\label{risk_budgeting_portfolio}
+    \begin{cases}
+    w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_n)}{\partial w_i} = b_i \mathcal{R}, \\
+    b_i \geq 0, \\
+    w_i \geq 0, \\
+    \sum_{i=1}^N b_i = 1, \\
+    \sum_{i=1}^N w_i = 1.
+    \end{cases}
+ \end{align}
+$
+
 
 ## Equal risk contribution
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ```@docs
 equalriskcontribution
 ```
 
 ## Inverse variance
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
 ```@docs
 inversevariance
 ```
 
 
 ## Most diversified
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ```@docs
 mostdiversified
