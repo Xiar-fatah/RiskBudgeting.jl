@@ -7,7 +7,7 @@ In comparison to the previous methods, risk budgeting portfolios considers the a
 
 As a result, the risk contribution, interpreted as the amount of risk exposure an asset in a portfolio is allowed to collect, of asset $i$ is expressed as
 ```math
-\textrm{RC}_i (w_1, \hdots, w_N) = w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_N)}{\partial w_i}.
+\\textrm{RC}_i (w_1, \hdots, w_N) = w_i \frac{\partial \mathcal{R}(w_1 , \ldots, w_N)}{\partial w_i}.
 ```
 This implies that if given the risk budgets $\{b_1, \ldots, b_N\}$, the risk budgeting portfolio is solved by finding the solutions to the non-linear system of equations ``b_i = \\textrm{RC}_i``. By generalizing the system of equations with the additional constraints of being long only and complete capital allocation, the risk budgeting portfolio develop into
 ```math
