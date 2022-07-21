@@ -37,6 +37,13 @@ end
 
 """
     equalriskcontribution(cov, b, [max_iter], [tol], [bounds], [solver])
+
+The equal risk contribution portfolio sets the risk budget for each asset in the
+portfolio to the inverse of the total number of assets
+
+```math
+    b_i = \\frac{1}{N}, i \\in [1, \\ldots, N].
+```
 """
 function equalriskcontribution(cov::AbstractMatrix, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
