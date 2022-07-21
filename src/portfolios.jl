@@ -60,6 +60,11 @@ end
 
 """
     inversevariance(cov, b, [max_iter], [tol], [bounds], [solver])
+
+The inverse variance portfolio is defined using the inverse variance of the financial time series
+```math
+    b_i = \\frac{\\sigma_i^{-2}}{\\sum_{i=1}^N \\sigma_i^{-2}}.
+```
 """
 function inversevariance(cov::AbstractMatrix, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
