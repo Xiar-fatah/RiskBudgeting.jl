@@ -13,12 +13,25 @@ function helper(cov, b, max_iter, tol, bounds, solver::Symbol)::AbstractVector
     return weights
 end
 
+"""
+    minimumvariance(cov, b, [max_iter], [tol], [bounds], [solver])
+TBA
+"""
+function minimumvariance(cov::AbstractMatrix, max_iter::Int64 = 10000,
+    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
 
+    return helper(cov, b, max_iter, tol, bounds, solver)
+end
 """
     mostdiversified(cov, b, [max_iter], [tol], [bounds], [solver])
+Given the weights set by the user, the most diversified portfolio risk budgets are proportional to the weights and the volatility as following
+```math
+    b_i = \\frac{w_i \\sigma_i}{\\sum_{i=1}^N w_i \\sigma_i} , \\ i \\in [1, \\ldots, N].
+```
 
-# double check this, it is suppose to be set by the user.
 """
+# double check this, it is suppose to be set by the user.'
+
 function mostdiversified(cov::AbstractMatrix, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
