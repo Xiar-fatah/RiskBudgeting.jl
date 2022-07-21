@@ -1,14 +1,13 @@
 # [Portfolios](@id portfolios_intro)
-In comparison to the previous methods, risk budgeting portfolios considers the amount of risk contribution each asset in the portfolio can hold.  Let $w_i$ and ``\mathcal{R} (w_1, \ldots, w_N)``,`` `` denote the weights of the asset ``i`` and the risk measure of the portfolio, for example volatility, respectively. Given that the risk measure is coherent and convex it will satisfy the condition of Euler decomposition
+In comparison to the previous methods, risk budgeting portfolios considers the amount of risk contribution each asset in the portfolio can hold.  Let $w_i$ and ``\mathcal{R} (w_1, \ldots, w_N)`` denote the weights of the asset ``i`` and the risk measure of the portfolio, for example volatility, respectively. Given that the risk measure is coherent and convex it will satisfy the condition of Euler decomposition
 
 ```math
 \begin{aligned}
-\mathcal{R}(w_1, \hdots, w_N) = \sum_{i=1}^n w_i \frac{\partial \mathcal{R} (w_1 , \ldots, w_n)}{\partial w_i}.
+\mathcal{R} (w_1, \ldots, w_N) = \sum_{i=1}^n w_i \frac{\partial \mathcal{R} (w_1 , \ldots, w_n)}{\partial w_i}.
 \end{aligned}
-
 ```
 
-As a result, the risk contribution, interpreted as the amount of risk exposure an asset in a portfolio is allowed to collect, of asset $i$ is expressed as
+As a result, the risk contribution, interpreted as the amount of risk exposure an asset in a portfolio is allowed to collect of asset $i$, is expressed as
 ```math
 \begin{aligned}
 \textrm{RC}_i (w_1, \ldots, w_N) = w_i \frac{\partial \mathcal{R} (w_1 , \ldots, w_N)}{\partial w_i}.
