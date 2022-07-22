@@ -1,16 +1,15 @@
 import RiskBudgeting: ccd, fastccd, newton, fastnewton
 
-function helper(cov, b, max_iter, tol, bounds, solver::Symbol)::AbstractVector
-    if solver == newton
-        weights = newton(cov, b, max_iter, tol, bounds)
-    elseif solver == ccd
-        weights = fastccd(cov, b, max_iter, tol, bounds)
-    elseif solver == fastccd
-        weights = ccd(cov, b, max_iter, tol, bounds)
+function helper(cov, b, max_iter, tol, bounds, solver::Symbol = :ccd)::AbstractVector
+    if solver == :newton
+        return newton(cov, b, max_iter, tol, bounds)
+    elseif solver == :ccd
+        return ccd(cov, b, max_iter, tol, bounds)
+    elseif solver == :fastccd
+        return fastccd(cov, b, max_iter, tol, bounds)
     else
-        weights = fastnewton(cov, b, max_iter, tol, bounds)
+        return fastnewton(cov, b, tol, bounds)
     end
-    return weights
 end
 
 """
@@ -31,7 +30,7 @@ External links
   The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
-function minimumvariance(cov::AbstractMatrix, w::AbstractVector, max_iter::Int64 = 10000,
+function minimumvariance(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
     # Add check that length of w is num of rows of cov
     b = w
@@ -56,7 +55,7 @@ External links
   The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
-function mostdiversified(cov::AbstractMatrix, w::AbstractVector, max_iter::Int64 = 10000,
+function mostdiversified(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
@@ -91,7 +90,7 @@ External links
   The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
-function equalriskcontribution(cov::AbstractMatrix, max_iter::Int64 = 10000,
+function equalriskcontribution(cov::AbstractMatrix; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
@@ -121,7 +120,7 @@ External links
   The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089).089)
 """
-function inversevariance(cov::AbstractMatrix, max_iter::Int64 = 10000,
+function inversevariance(cov::AbstractMatrix; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
