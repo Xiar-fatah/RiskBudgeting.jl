@@ -12,7 +12,7 @@ ccd
 fastccd
 ```
 
-# [Newton's Method](@id solver_newton)
+## [Newton's Method](@id solver_newton)
 
 ```@docs
 newton

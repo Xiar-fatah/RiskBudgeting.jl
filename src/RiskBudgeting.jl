@@ -6,7 +6,8 @@ module RiskBudgeting
     ccd, fastccd, newton, fastnewton,
 
     # Portfolios
-    mostdiversified, equalriskcontribution, inversevariance, minimumvariance,
+    mostdiversified, equalriskcontribution, 
+    inversevariance, minimumvariance,
 
     # Utils
     _covtocorr
