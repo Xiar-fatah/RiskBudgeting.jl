@@ -21,6 +21,14 @@ The risk budgets are set equal to the initial weights
 ```math
     b_i = w_i
 ```
+
+External links
+* Bruder, Benjamin and Roncalli, Thierry, 
+  Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
+  doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
+  Thomas Raffinot,
+  The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
+  doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function minimumvariance(cov::AbstractMatrix, w::AbstractVector, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
@@ -37,6 +45,14 @@ Given the weights set by the user, the most diversified portfolio risk budgets a
 ```math
     b_i = \\frac{w_i \\sigma_i}{\\sum_{i=1}^N w_i \\sigma_i} , \\ i \\in [1, \\ldots, N].
 ```
+
+External links
+* Bruder, Benjamin and Roncalli, Thierry, 
+  Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
+  doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
+  Thomas Raffinot,
+  The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
+  doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function mostdiversified(cov::AbstractMatrix, w::AbstractVector, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
@@ -63,6 +79,14 @@ portfolio to the inverse of the total number of assets
 ```math
     b_i = \\frac{1}{N}, i \\in [1, \\ldots, N].
 ```
+
+External links
+* Bruder, Benjamin and Roncalli, Thierry, 
+  Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
+  doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
+  Thomas Raffinot,
+  The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
+  doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function equalriskcontribution(cov::AbstractMatrix, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
@@ -84,6 +108,14 @@ The inverse variance portfolio is defined using the inverse variance of the fina
 ```math
     b_i = \\frac{\\sigma_i^{-2}}{\\sum_{i=1}^N \\sigma_i^{-2}}.
 ```
+
+External links
+* Bruder, Benjamin and Roncalli, Thierry, 
+  Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
+  doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
+  Thomas Raffinot,
+  The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
+  doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function inversevariance(cov::AbstractMatrix, max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
