@@ -13,7 +13,7 @@ function helper(cov, b, max_iter, tol, bounds, solver::Symbol = :ccd)::AbstractV
 end
 
 """
-    minimumvariance(cov, b, w, [max_iter], [tol], [bounds], [solver])
+    minimumvariance(cov, w, [max_iter], [tol], [bounds], [solver])
 
 The risk budgets are set equal to the initial weights
 
@@ -38,7 +38,7 @@ function minimumvariance(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64
 end
 
 """
-    mostdiversified(cov, b, w, [max_iter], [tol], [bounds], [solver])
+    mostdiversified(cov, w, [max_iter], [tol], [bounds], [solver])
 
 Given the weights set by the user, the most diversified portfolio risk budgets are proportional to the weights and the volatility as following
 
@@ -72,7 +72,7 @@ function mostdiversified(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64
 end
 
 """
-    equalriskcontribution(cov, b, [max_iter], [tol], [bounds], [solver])
+    equalriskcontribution(cov, [max_iter], [tol], [bounds], [solver])
 
 The equal risk contribution portfolio sets the risk budget for each asset in the
 portfolio to the inverse of the total number of assets
@@ -104,7 +104,7 @@ function equalriskcontribution(cov::AbstractMatrix; max_iter::Int64 = 10000,
 end
 
 """
-    inversevariance(cov, b, [max_iter], [tol], [bounds], [solver])
+    inversevariance(cov, [max_iter], [tol], [bounds], [solver])
 
 The inverse variance portfolio is defined using the inverse variance of the financial time series
 ```math
