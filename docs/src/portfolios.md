@@ -25,6 +25,11 @@ This implies that if given the risk budgets ``\{b_1, \ldots, b_N\}``, the risk b
 ```
 What is left is for the portfolio manager to set the desire risk budgets of each financial asset and then solve the system of equations above. Below a handful of risk budgets are proposed which can be used.
 
+## Minimum variance
+```@docs
+minimumvariance
+```
+
 ## Equal risk contribution
 ```@docs
 equalriskcontribution
@@ -35,9 +40,7 @@ equalriskcontribution
 inversevariance
 ```
 
-
 ## Most diversified
-
 ```@docs
 mostdiversified
 ```
