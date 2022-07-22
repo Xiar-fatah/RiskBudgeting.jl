@@ -1,4 +1,4 @@
-import RiskBudgeting: ccd, fastccd, newton
+import RiskBudgeting: ccd, fastccd, newton, fastnewton
 
 function helper(cov, b, max_iter, tol, bounds, solver::Symbol)::AbstractVector
     if solver == newton
@@ -23,7 +23,7 @@ The risk budgets are set equal to the initial weights
 ```
 
 External links
-* Bruder, Benjamin and Roncalli, Thierry, 
+* Bruder, Benjamin and Roncalli, Thierry,
   Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
   doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
 
@@ -48,7 +48,7 @@ Given the weights set by the user, the most diversified portfolio risk budgets a
 ```
 
 External links
-* Bruder, Benjamin and Roncalli, Thierry, 
+* Bruder, Benjamin and Roncalli, Thierry,
   Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
   doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
 
@@ -83,7 +83,7 @@ portfolio to the inverse of the total number of assets
 ```
 
 External links
-* Bruder, Benjamin and Roncalli, Thierry, 
+* Bruder, Benjamin and Roncalli, Thierry,
   Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
   doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
 
@@ -113,10 +113,10 @@ The inverse variance portfolio is defined using the inverse variance of the fina
 ```
 
 External links
-* Bruder, Benjamin and Roncalli, Thierry, 
+* Bruder, Benjamin and Roncalli, Thierry,
   Managing Risk Exposures Using the Risk Budgeting Approach (January 20, 2012),
   doi: [10.2139/ssrn.2009778 ](http://dx.doi.org/10.2139/ssrn.2009778)
-  
+
 * Thomas Raffinot,
   The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089).089)
@@ -134,4 +134,3 @@ function inversevariance(cov::AbstractMatrix, max_iter::Int64 = 10000,
 
     return helper(cov, b, max_iter, tol, bounds, solver)
 end
-
