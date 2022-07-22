@@ -33,8 +33,8 @@ julia> cov = [0.1 0.3
 
 julia> equalriskcontribution(cov)
 2-element Vector{Float64}:
- 0.7387930000367319
- 0.261206999963268
+ 0.7387930000367318
+ 0.26120699996326807
 ```
 ## Minimum variance
 ```@docs
