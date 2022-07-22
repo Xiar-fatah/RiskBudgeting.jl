@@ -18,8 +18,6 @@ makedocs(;
         "Introduction" => "index.md",
         "Portfolios" => "portfolios.md",
         "Solvers" => "solvers.md",
-
-        "Examples" => ["examples.md"]
     ],
 )
 
