@@ -19,7 +19,7 @@ end
 The risk budgets are set equal to the initial weights
 
 ```math
-    b_i = w_i
+    b_i = w_i, i \\in [1, \\ldots, N].
 ```
 
 External links
@@ -109,7 +109,7 @@ end
 
 The inverse variance portfolio is defined using the inverse variance of the financial time series
 ```math
-    b_i = \\frac{\\sigma_i^{-2}}{\\sum_{i=1}^N \\sigma_i^{-2}}.
+    b_i = \\frac{\\sigma_i^{-2}}{\\sum_{i=1}^N \\sigma_i^{-2}}, i \\in [1, \\ldots, N]..
 ```
 
 External links
