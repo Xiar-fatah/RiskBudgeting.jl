@@ -31,10 +31,10 @@ julia> using RiskBudgeting
 julia> cov = [0.1 0.3
         0.3 0.8];
 
-julia> equalriskcontribution(cov)
-2-element Vector{Float64}:
- 0.7387930000367319
- 0.261206999963268
+julia> retval = equalriskcontribution(cov);
+
+julia> print(round.(retval; digits=4))
+[0.7388, 0.2612]
 ```
 ## Minimum variance
 ```@docs
