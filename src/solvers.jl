@@ -16,7 +16,7 @@ External links
   A Fast Algorithm for Computing High-Dimensional Risk Parity Portfolios (September 1, 2013).
   doi: [10.2139/ssrn.2325255](http://dx.doi.org/10.2139/ssrn.2325255)
 """
-function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
+function ccd(cov::AbstractMatrix, b::AbstractVector{Float64};
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
     if bounds == true
@@ -70,7 +70,7 @@ External links
   Journal of Derivatives and Quantitative Studies, 30(2)
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
 """
-function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
+function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64};
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
 
@@ -124,7 +124,7 @@ External links
   doi: [10.2139/ssrn.2297383](http://dx.doi.org/10.2139/ssrn.2297383)
 
 """
-function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
+function newton(cov::AbstractMatrix, b::AbstractVector{Float64};
     max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
 
     if bounds == true
@@ -190,7 +190,7 @@ External links
     Journal of Derivatives and Quantitative Studies, 30(2)
     doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
 """
-function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
+function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64};
      tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
     if bounds == true
         # The risk budgeting vector must be positive
