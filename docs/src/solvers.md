@@ -1,5 +1,5 @@
 # [Solvers](@id solvers)
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The system of equations presented in the portfolio section can be solved with either cyclical coordinate descent as suggested by Griveau-Billion etal. or by Newton's method proposed by Florin Spinu. An comparision between the methods are made in the R language by Farah Bouzida which concludes that Newton's method is faster and more robust. Furthermore, Choi, J., & Chen applies modifications to both the cyclical coordinate descent and Newton's method with the aim of making them faster. 
 
 ## [Cyclical coordinate descent](@id solver_ccd)
 
