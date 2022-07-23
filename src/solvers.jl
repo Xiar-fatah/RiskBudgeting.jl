@@ -8,7 +8,7 @@ max_iter::Int Number of iterations for cyclical coordinate descent
 tol::Float The minimum tolerance of the result
 bounds::Bool Whether to run bounds checks or not
 ```
-Calculates the solution of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
+Calculates the solution of the risk budgeting portfolio with cyclical coordinate descent given the covariance matrix
 and the risk partitions between the assets.
 
 External links
@@ -45,7 +45,7 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         x = x̃
 
     end
-    println("Cyclical Coordinate Descent has failed to converge!")
+    println("Cyclical coordinate descent has failed to converge!")
     return x̃ / sum(x̃)
 end
 
@@ -61,7 +61,7 @@ tol::Float The minimum tolerance of the result
 bounds::Bool Whether to run bounds checks or not
 
 ```
-A faster solution finder of the risk budgeting portfolio with Cyclical Coordinate Descent given the covariance matrix
+A faster solution finder of the risk budgeting portfolio with cyclical coordinate descent given the covariance matrix
 and the risk partitions between the assets.
 
 External links
