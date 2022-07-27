@@ -118,7 +118,7 @@ External links
 
 * Thomas Raffinot,
   The Journal of Portfolio Management Multi-Asset Special Issue 2018, 44 (2) 89-99,
-  doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089).089)
+  doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function inversevariance(cov::AbstractMatrix; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
