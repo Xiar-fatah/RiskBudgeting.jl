@@ -239,7 +239,6 @@ function my_solve(f!, g!, x, cov, b, tol)
         (fjac,x) -> g!(fjac, x, cov, b),
         x,
         tol = tol,
-        show_trace = true,
         method = :hybr,
         factor = 100.0,
         mode = 1,
