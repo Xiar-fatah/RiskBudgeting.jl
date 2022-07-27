@@ -1,6 +1,6 @@
 import RiskBudgeting: ccd, fastccd, newton, fastnewton
 
-function helper(cov, b, max_iter, tol, bounds, solver::Symbol = :ccd)::AbstractVector
+function callsolver(cov, b, max_iter, tol, bounds, solver::Symbol = :ccd)::AbstractVector
     if solver == :newton
         return newton(cov, b, max_iter, tol, bounds)
     elseif solver == :ccd
@@ -34,7 +34,7 @@ function minimumvariance(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
     # Add check that length of w is num of rows of cov
     b = w
-    return helper(cov, b, max_iter, tol, bounds, solver)
+    return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
 
 """
@@ -68,7 +68,7 @@ function mostdiversified(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
 
-    return helper(cov, b, max_iter, tol, bounds, solver)
+    return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
 
 """
@@ -100,7 +100,7 @@ function equalriskcontribution(cov::AbstractMatrix; max_iter::Int64 = 10000,
 
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
-    return helper(cov, b, max_iter, tol, bounds, solver)
+    return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
 
 """
@@ -131,5 +131,5 @@ function inversevariance(cov::AbstractMatrix; max_iter::Int64 = 10000,
     # The risk budgeting vector must be positive
     @assert all(b.>0) == true
 
-    return helper(cov, b, max_iter, tol, bounds, solver)
+    return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
