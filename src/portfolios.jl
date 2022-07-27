@@ -1,6 +1,10 @@
-import RiskBudgeting: ccd, fastccd, newton, fastnewton
+struct SolverResults
+    weights::Vector{Float64}
+    converged::Bool
+    msg::String
+end
 
-function callsolver(cov, b, max_iter, tol, bounds, solver::Symbol = :ccd)::AbstractVector
+function callsolver(cov, b, max_iter, tol, bounds, solver::Symbol = :ccd)
     if solver == :newton
         return newton(cov, b, max_iter, tol, bounds)
     elseif solver == :ccd
@@ -31,7 +35,7 @@ External links
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function minimumvariance(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64 = 10000,
-    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
+    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)
     # Add check that length of w is num of rows of cov
     b = w
     return callsolver(cov, b, max_iter, tol, bounds, solver)
@@ -56,7 +60,7 @@ External links
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function mostdiversified(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64 = 10000,
-    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
+    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
     # Add check that length of w is num of rows of cov
@@ -91,7 +95,7 @@ External links
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function equalriskcontribution(cov::AbstractMatrix; max_iter::Int64 = 10000,
-    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
+    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
 
@@ -121,7 +125,7 @@ External links
   doi: [10.3905/jpm.2018.44.2.089 ](https://doi.org/10.3905/jpm.2018.44.2.089)
 """
 function inversevariance(cov::AbstractMatrix; max_iter::Int64 = 10000,
-    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)::AbstractVector
+    tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
 

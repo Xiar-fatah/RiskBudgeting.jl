@@ -17,7 +17,7 @@ External links
   doi: [10.2139/ssrn.2325255](http://dx.doi.org/10.2139/ssrn.2325255)
 """
 function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)
 
     if bounds == true
         # The risk budgeting vector must be positive
@@ -40,13 +40,14 @@ function ccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         rc = (x̃ .* (cov * x̃)) ./ (sqrt(x̃' * (cov * x̃)))
 
         if maximum(abs.(rc / sum(rc) .- b)) < tol
-            return x̃ / sum(x̃)
+            weights =  x̃ / sum(x̃)
+            return SolverResults(weights, true, "Cyclical coordinate descent has succeeded to converge!")
         end
         x = x̃
 
     end
-    println("Cyclical coordinate descent has failed to converge!")
-    return x̃ / sum(x̃)
+    weights = x̃ / sum(x̃)
+    return SolverResults(weights, false, "Cyclical coordinate descent has failed to converge!")
 end
 
 
@@ -71,7 +72,7 @@ External links
   doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
 """
 function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)
 
 
     if bounds == true
@@ -95,13 +96,13 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
         x[i] = sqrt(aᵢ^2 + b[i]) - aᵢ
         x = x ./ (sqrt(x' * (corr * x)))
         if maximum(abs.(x .* (corr * x) .- b)) < tol
-            x = (x./σ)
-            return x ./ (sum(x))
+            weights = (x./σ) ./ sum((x./σ))
+            return SolverResults(weights, true, "Fast cyclical coordinate descent has succeeded to converge!")
         end
     end
     println("Cyclical Coordinate Descent has failed to converge!")
-    x = (x./σ)
-    return x ./ (sum(x))
+    weights = (x./σ) ./ sum((x./σ))
+    return SolverResults(weights, false, "Fast cyclical coordinate descent has failed to converge!")
 end
 
 """
@@ -125,7 +126,7 @@ External links
 
 """
 function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
-    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
+    max_iter::Int64 = 10000, tol::Float64 = 10^(-4), bounds::Bool = true)
 
     if bounds == true
         # The risk budgeting vector must be positive
@@ -152,13 +153,12 @@ function newton(cov::AbstractMatrix, b::AbstractVector{Float64},
         x = x - Δx
         rc = (x .* (cov * x)) ./ (sqrt(x' * (cov * x)))
         if maximum(abs.(rc / sum(rc) .- b)) < tol
-        #if λₖ > tol
-            break
+            weights = x ./ sum(x)
+            return SolverResults(weights, true, "Newton's method has succeeded to converge!")
         end
     end
-    #σ = diag(cov)
-    #x = x ./ σ
-    return x ./ sum(x)
+    weights = x ./ sum(x)
+    return SolverResults(weights, false, "Newton's method has failed to converge!")
 end
 
 function iteration(cov, x, u, b)
@@ -191,7 +191,7 @@ External links
     doi: [10.48550/arXiv.2203.00148](https://doi.org/10.48550/arXiv.2203.00148)
 """
 function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
-     tol::Float64 = 10^(-4), bounds::Bool = true)::AbstractVector
+     tol::Float64 = 10^(-4), bounds::Bool = true)
     if bounds == true
         # The risk budgeting vector must be positive
         @assert all(b.>0) == true
@@ -204,15 +204,17 @@ function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
     a = (corr * onevec - onevec) / (2* sqrt(onevec' * corr * onevec))
     x = sqrt.(a.^2 + b) - a
 
-    w, converged = my_solve(f!, g!, x, cov, b, tol) #ska vara cov istället, men vanliga pappret använde cor
+    w, converged = my_solve(f!, g!, x, cov, b, tol) # Original paper used corr to test
 
     if converged == false
-        return "Fast Newtons method did not converge!"
+        weights = w ./ σ / sum(w ./ σ)
+        return SolverResults(weights, false, "Fast Newtons method did not converge!") 
     elseif any(0 .> w) == true
-        return "One or more weights is negative, fast Newtons method failed to converge!"
+        weights = w ./ σ / sum(w ./ σ)
+        return SolverResults(weights, false, "One or more weights is negative, fast Newtons method failed to converge!") 
     else
-        w = w ./ σ
-        return w / sum(w)
+        weights = w ./ σ / sum(w ./ σ)
+        return SolverResults(weights, true, "Fast Newton's method has succeeded to converge!")
     end
 end
 

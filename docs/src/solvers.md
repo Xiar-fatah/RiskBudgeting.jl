@@ -9,7 +9,7 @@ julia> cov = [0.1 0.3
 
 julia> b = [1/2 for i= 1:2];
 
-julia> retval = ccd(cov, b);
+julia> retval = ccd(cov, b).weights;
 
 julia> print(round.(retval; digits=4))
 [0.7388, 0.2612]

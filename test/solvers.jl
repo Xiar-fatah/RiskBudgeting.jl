@@ -71,9 +71,9 @@ end
      0.007343   0.00870648  0.00113161]
     b_test = [1/3 for i=1:3]
 
-    store_ccd = ccd(cov_test, b_test)
-    store_fastccd = fastccd(cov_test, b_test)
-    store_newton = newton(cov_test, b_test)
+    store_ccd = ccd(cov_test, b_test).weights
+    store_fastccd = fastccd(cov_test, b_test).weights
+    store_newton = newton(cov_test, b_test).weights
 
     @test all.(isapprox(store_newton, store_ccd,atol = 0.01))
     @test all.(isapprox(store_newton, store_fastccd,atol = 0.01))
