@@ -100,7 +100,6 @@ function fastccd(cov::AbstractMatrix, b::AbstractVector{Float64},
             return SolverResults(weights, true, "Fast cyclical coordinate descent has succeeded to converge!")
         end
     end
-    println("Cyclical Coordinate Descent has failed to converge!")
     weights = (x./σ) ./ sum((x./σ))
     return SolverResults(weights, false, "Fast cyclical coordinate descent has failed to converge!")
 end

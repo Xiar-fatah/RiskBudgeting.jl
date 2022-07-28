@@ -37,6 +37,9 @@ External links
 function minimumvariance(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)
     # Add check that length of w is num of rows of cov
+    @assert all(w.>0) == true
+
+
     b = w
     return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
@@ -61,6 +64,8 @@ External links
 """
 function mostdiversified(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64 = 10000,
     tol::Float64 = 10^(-4), bounds::Bool = true, solver::Symbol=:newton)
+    # The weight vector must be positive
+    @assert all(w.>0) == true
     # The covariance matrix must be NxN
     @assert (size(cov)[1] == size(cov)[2]) == true
     # Add check that length of w is num of rows of cov
@@ -69,8 +74,7 @@ function mostdiversified(cov::AbstractMatrix, w::AbstractVector; max_iter::Int64
     σ = sqrt.(diag(cov))
     b = (σ .* w) / (σ' * w)
 
-    # The risk budgeting vector must be positive
-    @assert all(b.>0) == true
+
 
     return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
@@ -102,8 +106,6 @@ function equalriskcontribution(cov::AbstractMatrix; max_iter::Int64 = 10000,
     N = size(cov)[1]
     b = [1/N for i=1:N]
 
-    # The risk budgeting vector must be positive
-    @assert all(b.>0) == true
     return callsolver(cov, b, max_iter, tol, bounds, solver)
 end
 
@@ -131,9 +133,6 @@ function inversevariance(cov::AbstractMatrix; max_iter::Int64 = 10000,
 
     σ = sqrt.(diag(cov))
     b = σ.^(-2) ./ sum(σ.^(-2))
-
-    # The risk budgeting vector must be positive
-    @assert all(b.>0) == true
 
     return callsolver(cov, b, max_iter, tol, bounds, solver)
 end

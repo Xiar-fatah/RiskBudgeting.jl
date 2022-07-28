@@ -66,17 +66,33 @@ end
 end
 
 @testset "solver tests" begin
-    cov_test = [ 0.404095   0.0379728   0.007343
+    function callsolvers(cov::AbstractMatrix, b::AbstractVector)
+        store_ccd = ccd(cov, b).weights
+        store_fastccd = fastccd(cov, b).weights
+        store_newton = newton(cov, b).weights
+
+        @test all.(isapprox(store_newton, store_ccd, atol = 0.01))
+        @test all.(isapprox(store_newton, store_fastccd, atol = 0.01))
+        @test all.(isapprox(store_ccd, store_fastccd, atol = 0.01))
+    end
+
+    covtest1 = [ 0.404095   0.0379728   0.007343
      0.0379728  0.407645    0.00870648
      0.007343   0.00870648  0.00113161]
-    b_test = [1/3 for i=1:3]
+    btest1 = [1/3 for i=1:size(covtest1, 1)]
 
-    store_ccd = ccd(cov_test, b_test).weights
-    store_fastccd = fastccd(cov_test, b_test).weights
-    store_newton = newton(cov_test, b_test).weights
+    callsolvers(covtest1, btest1)
 
-    @test all.(isapprox(store_newton, store_ccd,atol = 0.01))
-    @test all.(isapprox(store_newton, store_fastccd,atol = 0.01))
-    @test all.(isapprox(store_ccd, store_fastccd,atol = 0.01))
+
+    covtest2 = [0.3 0.1
+                0.1 0.8]
+    btest2 = [1/2 for i = 1:size(covtest2, 1)]
+    
+    callsolvers(covtest2, btest2)
+
+
+
+
+
 
 end
