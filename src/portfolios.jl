@@ -19,6 +19,15 @@ end
 """
     minimumvariance(cov, w, [max_iter], [tol], [bounds], [solver])
 
+```julia
+cov::AbstractMatrix      covariance matrix
+w::AbstractVector{Float} portfolio weights
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
+solver::Symbol=:newton   which solver to use
+```
+
 The risk budgets are set equal to the initial weights
 
 ```math
@@ -47,6 +56,14 @@ end
 """
     mostdiversified(cov, w, [max_iter], [tol], [bounds], [solver])
 
+```julia
+cov::AbstractMatrix      covariance matrix
+w::AbstractVector{Float} portfolio weights
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
+solver::Symbol=:newton   which solver to use
+```
 Given the weights set by the user, the most diversified portfolio risk budgets are proportional to the weights and the volatility as following
 
 ```math
@@ -82,6 +99,14 @@ end
 """
     equalriskcontribution(cov, [max_iter], [tol], [bounds], [solver])
 
+```julia
+cov::AbstractMatrix      covariance matrix
+w::AbstractVector{Float} portfolio weights
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
+solver::Symbol=:newton   which solver to use
+```
 The equal risk contribution portfolio sets the risk budget for each asset in the
 portfolio to the inverse of the total number of assets
 
@@ -112,6 +137,13 @@ end
 """
     inversevariance(cov, [max_iter], [tol], [bounds], [solver])
 
+```julia
+cov::AbstractMatrix      covariance matrix
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
+solver::Symbol=:newton   which solver to use
+```
 The inverse variance portfolio is defined using the inverse variance of the financial time series
 ```math
     b_i = \\frac{\\sigma_i^{-2}}{\\sum_{i=1}^N \\sigma_i^{-2}}, i \\in [1, \\ldots, N].

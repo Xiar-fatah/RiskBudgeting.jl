@@ -1,14 +1,14 @@
 """
     ccd(cov, b, [max_iter], [tol], [bounds])
 
+```julia
+cov::AbstractMatrix      covariance matrix
+b::AbstractVector{Float} risk budgeting vector
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
 ```
-# Arguments
-cov::AbstractMatrix Covariance matrix
-b::AbstractVector{Float} Risk budgeting vector
-max_iter::Int Number of iterations for cyclical coordinate descent
-tol::Float The minimum tolerance of the result
-bounds::Bool Whether to run bounds checks or not
-```
+
 Calculates the solution of the risk budgeting portfolio with cyclical coordinate descent given the covariance matrix
 and the risk partitions between the assets.
 
@@ -56,11 +56,11 @@ end
     fastccd(cov, b, [max_iter], [tol], [bounds])
 
 ```julia
-cov::AbstractMatrix Covariance matrix
-b::AbstractVector{Float} Risk budgeting vector
-max_iter::Int Number of iterations for cyclical coordinate descent
-tol::Float The minimum tolerance of the result
-bounds::Bool Whether to run bounds checks or not
+cov::AbstractMatrix      covariance matrix
+b::AbstractVector{Float} risk budgeting vector
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
 
 ```
 A faster solution finder of the risk budgeting portfolio with cyclical coordinate descent given the covariance matrix
@@ -109,11 +109,11 @@ end
     newton(cov, b, [max_iter], [tol], [bounds])
 
 ```julia
-cov::AbstractMatrix Covariance matrix
-b::AbstractVector{Float} Risk budgeting vector
-max_iter::Int Number of iterations for cyclical coordinate descent
-tol::Float The minimum tolerance of the result
-bounds::Bool Whether to run bounds checks or not
+cov::AbstractMatrix      covariance matrix
+b::AbstractVector{Float} risk budgeting vector
+max_iter::Int=10000      number of iterations 
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
 
 ```
 Solution finder of the risk budgeting portfolio with Newton's method given the covariance matrix
@@ -174,10 +174,10 @@ end
     fastnewton(cov, b, [tol], [bounds])
 
 ```julia
-cov::AbstractMatrix Covariance matrix
-b::AbstractVector{Float} Risk budgeting vector
-tol::Float The minimum tolerance of the result
-bounds::Bool Whether to run bounds checks or not
+cov::AbstractMatrix      covariance matrix
+b::AbstractVector{Float} risk budgeting vector
+tol::Float=10(-4)        the minimum tolerance of the result
+bounds::Bool=true        whether to run bounds checks or not
 
 ```
 A faster solution finder of the risk budgeting portfolio based on Newton's method given the covariance matrix
