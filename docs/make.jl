@@ -24,5 +24,6 @@ makedocs(;
 deploydocs(;
     repo="github.com/Xiar-fatah/RiskBudgeting.jl",
     devbranch="main",
+    push_previes = 'true'
     branch_previews = "dev"
 )
