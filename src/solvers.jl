@@ -1,7 +1,8 @@
 """
     ccd(cov, b, [max_iter], [tol], [bounds])
 
-```julia
+```
+# Arguments
 cov::AbstractMatrix Covariance matrix
 b::AbstractVector{Float} Risk budgeting vector
 max_iter::Int Number of iterations for cyclical coordinate descent
