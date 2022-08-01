@@ -16,4 +16,4 @@ or from Julia's package manager by typing `] add RiskBudgeting`.
 
 
 ## Citing
-If you are using this package for research and wish cite this package you can do this by following this [link](https://zenodo.org/badge/latestdoi/504891771).
+If you are using this package for research and wish to cite this package you can do this by following this [link](https://zenodo.org/badge/latestdoi/504891771).
