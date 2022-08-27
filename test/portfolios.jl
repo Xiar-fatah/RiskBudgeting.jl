@@ -5,8 +5,6 @@
     @test equalriskcontribution(covtest; solver = :fastccd).weights ≈ fastccd(covtest, wtest).weights
     @test equalriskcontribution(covtest; solver = :ccd).weights ≈ ccd(covtest, wtest).weights
     @test equalriskcontribution(covtest; solver = :newton).weights ≈ newton(covtest, wtest).weights
-    println(newton(covtest, wtest).weights)
-    println(fastnewton(covtest, wtest).weights)
 
 
 end
