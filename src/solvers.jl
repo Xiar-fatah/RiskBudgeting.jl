@@ -182,7 +182,8 @@ bounds::Bool=true        whether to run bounds checks or not
 ```
 A faster solution finder of the risk budgeting portfolio based on Newton's method given the covariance matrix
 and the risk partitions between the assets. The core concept is that the solution will converge faster if the initial
-guess of the weights is closer to the solution in comparision to Spinu's algorithm.
+guess of the weights is closer to the solution in comparision to Spinu's algorithm. Note that the modified Spinu's 
+algorithm (fastnewton) can theoritically obtain negative weights, which according to the constraints of risk budgeting should not occur. 
 
 External links
 * Choi, J., & Chen, R. (2022).
@@ -199,7 +200,7 @@ function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
         @assert (size(cov,1) == size(cov,2)) == true
     end
     corr = _covtocorr(cov)
-    σ = diag(cov)
+    σ = diag(corr)
     onevec = ones(size(cov,1))
     a = (corr * onevec - onevec) / (2* sqrt(onevec' * corr * onevec))
     x = sqrt.(a.^2 + b) - a
@@ -220,18 +221,22 @@ end
 
 function f!(fvec, x, cov, b)
     temp = cov * x - b ./ x
-    fvec[1] = temp[1]
-    fvec[2] = temp[2]
-    fvec
+    N = size(temp,1)
+    for i = 1:N
+        fvec[i] = temp[i]
+    end
+    return fvec
 end
 
 function g!(fjac, x, cov, b)
     temp = cov + diagm(b ./ (x .* x))
-    fjac[1,1] = temp[1,1]
-    fjac[1,2] = temp[1,2]
-    fjac[2,1] = temp[2,1]
-    fjac[2,2] = temp[2,2]
-    fjac
+    N = size(temp,1)
+    for i = 1:N
+        for j = 1:N
+            fjac[i,j] = temp[i,j]
+        end
+    end
+    return fjac
 end
 
 function my_solve(f!, g!, x, cov, b, tol)
