@@ -220,22 +220,24 @@ function fastnewton(cov::AbstractMatrix, b::AbstractVector{Float64},
 end
 
 function f!(fvec, x, cov, b)
-    temp = cov * x - b ./ x
+#=     temp = cov * x - b ./ x
     N = size(temp,1)
     for i = 1:N
         fvec[i] = temp[i]
-    end
+    end =#
+    fvec[:] = cov * x - b ./ x
     return fvec
 end
 
 function g!(fjac, x, cov, b)
-    temp = cov + diagm(b ./ (x .* x))
+#=     temp = cov + diagm(b ./ (x .* x))
     N = size(temp,1)
     for i = 1:N
         for j = 1:N
             fjac[i,j] = temp[i,j]
         end
-    end
+    end =#
+    fjac[:, :] = cov + diagm(b ./ (x .* x))
     return fjac
 end
 
